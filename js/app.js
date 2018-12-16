@@ -1,26 +1,30 @@
 
+/***********************************
+* Global variables with game state
+************************************/
 
+// shuffled set of cards (one pair of each type)
 var cards = shuffle(createUnshuffledCards());
+
+// cards that are currently open (turned up)
 var openCards = new Set();
+
+// cards that have been matched pairwise
 var matchedCards = new Set();
+
+// number of card turns (moves)
 var cardTurnCounter= 0;
+
+// number of stars (calculated as a function of moves when finished)
 var numStars = 0;
+
+// absolute start datetime (used to calculate elative game time in seconds)
 var startDateTime = new Date();
 
-
-// TODOs:
-// 1) timing of game, e.g. https://www.w3schools.com/js/js_timing.asp
-//.    or console.time https://blog.mariusschulz.com/2013/11/22/measuring-execution-times-in-javascript-with-consoletime
-
-
-
-// 2) congratulations popup
-//.   - need to detect winning situation, count match pairs
-// 3) restart button - new shuffled state, all timers/vars zeroed out
-// 4) star rating, hardcode based on moves, finalize before N then 3 stars
-//.    before 2N then 2 stars (
-// 5) update with number of moves (i.e. clicks that lead to a turn of a card)
-
+/*
+ * @description Creates array with pairs of cards per type
+ * @return {Array} of pairs of cards (not shuffled)
+ */
 function createUnshuffledCards() {
 	var cardTypes = ["fa-diamond", "fa-paper-plane-o", "fa-anchor",
 	"fa-bolt", "fa-cube", "fa-bicycle", "fa-bomb", "fa-leaf"];
@@ -30,7 +34,11 @@ function createUnshuffledCards() {
 	return cards.concat(cardTypes,cardTypes);
 }
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+/*
+ * @description Shuffle function from http://stackoverflow.com/a/2450976
+ * @param {Array} of (unshuffled) cards
+ * @return {Array} of shuffled cards
+ */
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -45,6 +53,11 @@ function shuffle(array) {
 	return array;
 }
 
+/*
+ * @description Creates HTML element to represent a given card type
+ * @param {String} with the card type (class)
+ * @return {Object} with HTML to be used in DOM to represent a card
+ */
 function createCardHTML(cardType) {
 	var card = document.createElement('li');
 	card.classList.toggle('card'); 
@@ -57,13 +70,10 @@ function createCardHTML(cardType) {
 	return card;
 }
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
+/*
+ * @description Creates all cards in the DOM
+ */
  function displayCards() {
  	var deck = document.querySelector('.deck');
  	// TODO: remove all cards for each time
@@ -81,19 +91,6 @@ function createCardHTML(cardType) {
 
 
 
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
- 
  function toggleCardOpenShow(card) {
  	console.log('toggleCard:' + card);
  	card.classList.toggle('open');
