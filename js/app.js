@@ -149,7 +149,12 @@ function setupEventListenerForCards() {
  			addToOpenCards(clickedCard);
  			console.log('*****' + openCards.size);
  			console.log('********' + openCards);
- 			checkForEquality();
+ 			var pauseTimeInMilliseconds = 0;
+ 			if(openCards.size == 2) {
+ 				pauseTimeInMilliseconds = 1000;
+ 			}
+ 			console.log('pauseTimeInMilliseconds = ' + pauseTimeInMilliseconds)
+ 			setTimeout(checkForEquality, pauseTimeInMilliseconds);
  		}
  		//}
  	}
