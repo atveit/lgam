@@ -5,6 +5,7 @@ var openCards = new Set();
 var matchedCards = new Set();
 var cardTurnCounter= 0;
 var numStars = 0;
+var startDateTime = new Date();
 
 
 // TODOs:
@@ -247,6 +248,8 @@ function restartButtonAction() {
 	matchedCards = new Set();
 	cardTurnCounter = 0;
 	numStars = 0;
+	startDateTime = new Date();
+	setTimeout(updateTimer, 1000);
 	displayCards();
 	updateNumberOfMoves();
 }
@@ -262,6 +265,20 @@ function updateNumberOfMoves() {
 	moves.innerText = cardTurnCounter;
 }
 
+function updateTimer() {
+	var currentDateTime = new Date();
+
+	var deltaInMilliseconds = currentDateTime-startDateTime;
+	var deltaInSeconds = Math.round(deltaInMilliseconds/1000);
+
+	var timer = document.querySelector(".timer");
+	timer.innerText = deltaInSeconds;
+
+	if(matchedCards.size < cards.length) {
+		setTimeout(updateTimer, 1000);
+	}
+}
+
 /*
 * MAIN FUNCTION that sets up everything
 */
@@ -270,10 +287,9 @@ function updateNumberOfMoves() {
 
 function main() {
 	displayCards();
-	//setupRestartButton();
-	var restartButton = document.querySelector(".restart");
-	restartButton.addEventListener('click', restartButtonAction);
+	setupRestartButton();
 	setupEventListenerForCards();
+	setTimeout(updateTimer, 1000);
 
 }
 
