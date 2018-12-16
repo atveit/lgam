@@ -66,7 +66,14 @@ function createCardHTML(cardType) {
  function displayCards() {
  	var deck = document.querySelector('.deck');
  	// TODO: remove all cards for each time
- 	for(var i=0; i<cards.length; ++i) {
+
+ 	// remove any old ones
+	while (deck.firstChild) {
+    	deck.removeChild(deck.firstChild);
+	}
+
+	// add new ones
+	for(var i=0; i<cards.length; ++i) {
  		deck.appendChild(createCardHTML(cards[i]));
  	}
  }
@@ -209,6 +216,8 @@ function setupEventListenerForCards() {
  		var clickedCard = evt.target;
  		if(clickedCard.nodeName.toLowerCase() == 'li') {
  			cardTurnCounter++;
+ 			updateNumberOfMoves();
+
  			console.log(clickedCard.nodeName);
  			console.log('A <i> lower ..was clicked: ' + clickedCard.firstElementChild.nodeName);
  			console.log(clickedCard.firstElementChild.classList);
@@ -239,12 +248,18 @@ function restartButtonAction() {
 	cardTurnCounter = 0;
 	numStars = 0;
 	displayCards();
+	updateNumberOfMoves();
 }
 
 
 function setupRestartButton() {
 	var restartButton = document.querySelector(".restart");
 	restartButton.addEventListener('click', restartButtonAction);
+}
+
+function updateNumberOfMoves() {
+	var moves = document.querySelector(".moves");
+	moves.innerText = cardTurnCounter;
 }
 
 /*
@@ -255,7 +270,11 @@ function setupRestartButton() {
 
 function main() {
 	displayCards();
+	//setupRestartButton();
+	var restartButton = document.querySelector(".restart");
+	restartButton.addEventListener('click', restartButtonAction);
 	setupEventListenerForCards();
+
 }
 
 main();
