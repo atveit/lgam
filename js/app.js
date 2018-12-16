@@ -1,10 +1,17 @@
 
 
+var cards = shuffle(createUnshuffledCards());
 var openCards = new Set();
+var matchedCards = new Set();
+var cardTurnCounter= 0;
+var numStars = 0;
 
 // TODOs:
 // 1) timing of game, e.g. https://www.w3schools.com/js/js_timing.asp
 //.    or console.time https://blog.mariusschulz.com/2013/11/22/measuring-execution-times-in-javascript-with-consoletime
+
+
+
 // 2) congratulations popup
 //.   - need to detect winning situation, count match pairs
 // 3) restart button - new shuffled state, all timers/vars zeroed out
@@ -55,7 +62,7 @@ function createCardHTML(cardType) {
  *   - add each card's HTML to the page
  */
 
- function displayCards(cards) {
+ function displayCards() {
  	var deck = document.querySelector('.deck');
  	// TODO: remove all cards for each time
  	for(var i=0; i<cards.length; ++i) {
@@ -126,6 +133,8 @@ function createCardHTML(cardType) {
  			console.log('card' + openCardsArray[i]);
  			if(equalCards) {
  				console.log('equal - toggle!');
+ 				matchedCards.add(openCardsArray[i]);
+ 				console.log("MATCHEDCARDS", matchedCards.size);
  				toggleCardMatch(openCardsArray[i]);
  			}
  			console.log('>>>>>>> MATCH match toggle..');
@@ -134,6 +143,16 @@ function createCardHTML(cardType) {
  		openCards.clear();
  		console.log('opencards.size should be ZERO after clear' + openCards.size)
  		openCardsArray = [];
+
+ 		console.log("SIZE>>>>" + matchedCards.size);
+ 		console.log("")
+
+ 		if(matchedCards.size == cards.length) {
+			// all cards have been matched, we have a winning situation
+			congratulationsPopup();
+			updateStars();
+		}
+
 	} else if(openCards.size == 1) {
 		console.log(openCards.size + 'equal to 1');
 	} else if(openCards.size > 2) {
@@ -141,6 +160,37 @@ function createCardHTML(cardType) {
 	} else {
 		console.log(openCards.size + 'less than equal to 0!!!!!!!!');
 	}
+}
+
+function updateStars() {
+	console.log('updatestars');
+	// based on number of moves, calculate stars
+	if(cardTurnCounter < 1.5*cards.length) {
+		numStars = 3;
+	} else if(cardTurnCounter < 2.0*cards.length) {
+		numStars = 2;
+	} else if(cardTurnCounter < 8.0*cards.length) {
+		numStars = 1;
+	} else {
+		numStars = 0;
+	}
+
+	// UPDATE DOM for stars
+	var stars = document.querySelector('.stars');
+	for(var i=0; i<numStars; ++i) {
+		var star = document.createElement('li');
+		var innerStar = document.createElement('i')
+		innerStar.classList.toggle('fa'); 
+		innerStar.classList.toggle('fa-star');
+		star.appendChild(innerStar);
+		stars.appendChild(star);
+	}
+	console.log('stars..');
+}
+
+function congratulationsPopup() {
+	window.alert('congratulations finalizing the game!');
+	// perhaps reset afterwards?
 }
 
 function setupEventListenerForCards() {
@@ -157,6 +207,7 @@ function setupEventListenerForCards() {
 
  		var clickedCard = evt.target;
  		if(clickedCard.nodeName.toLowerCase() == 'li') {
+ 			cardTurnCounter++;
  			console.log(clickedCard.nodeName);
  			console.log('A <i> lower ..was clicked: ' + clickedCard.firstElementChild.nodeName);
  			console.log(clickedCard.firstElementChild.classList);
@@ -170,6 +221,7 @@ function setupEventListenerForCards() {
  			}
  			console.log('pauseTimeInMilliseconds = ' + pauseTimeInMilliseconds)
  			setTimeout(checkForEquality, pauseTimeInMilliseconds);
+
  		}
  		//}
  	}
@@ -185,8 +237,7 @@ function setupEventListenerForCards() {
 
 
 function main() {
-	var cards = shuffle(createUnshuffledCards());
-	displayCards(cards);
+	displayCards();
 	setupEventListenerForCards();
 }
 
