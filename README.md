@@ -36,8 +36,8 @@ function toggleCardMatch(card)
 function checkForEqualityOfCards() 
 function addToOpenCards(clickedCard)
 function checkForEquality() 
-function setupEventListenerForCards() {
-  function respondToTheClick(evt) {
+function setupEventListenerForCards() 
+  function respondToTheClick(evt) 
 ```
 
 ### Functions that deals with additional features in the game (e.g. scoring)
