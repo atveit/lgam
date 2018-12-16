@@ -25,9 +25,9 @@ var startDateTime = new Date();
  * @description Creates array with pairs of cards per type
  * @return {Array} of pairs of cards (not shuffled)
  */
-function createUnshuffledCards() {
-	var cardTypes = ["fa-diamond", "fa-paper-plane-o", "fa-anchor",
-	"fa-bolt", "fa-cube", "fa-bicycle", "fa-bomb", "fa-leaf"];
+ function createUnshuffledCards() {
+ 	var cardTypes = ["fa-diamond", "fa-paper-plane-o", "fa-anchor",
+ 	"fa-bolt", "fa-cube", "fa-bicycle", "fa-bomb", "fa-leaf"];
 
 	// create cards, twice the size of cardTypes since 2 of each card type
 	var cards = []
@@ -39,28 +39,28 @@ function createUnshuffledCards() {
  * @param {Array} of (unshuffled) cards
  * @return {Array} of shuffled cards
  */
-function shuffle(array) {
-	var currentIndex = array.length, temporaryValue, randomIndex;
+ function shuffle(array) {
+ 	var currentIndex = array.length, temporaryValue, randomIndex;
 
-	while (currentIndex !== 0) {
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
+ 	while (currentIndex !== 0) {
+ 		randomIndex = Math.floor(Math.random() * currentIndex);
+ 		currentIndex -= 1;
+ 		temporaryValue = array[currentIndex];
+ 		array[currentIndex] = array[randomIndex];
+ 		array[randomIndex] = temporaryValue;
+ 	}
 
-	return array;
-}
+ 	return array;
+ }
 
 /*
  * @description Creates HTML element to represent a given card type
  * @param {String} with the card type (class)
  * @return {Object} with HTML to be used in DOM to represent a card
  */
-function createCardHTML(cardType) {
-	var card = document.createElement('li');
-	card.classList.toggle('card'); 
+ function createCardHTML(cardType) {
+ 	var card = document.createElement('li');
+ 	card.classList.toggle('card'); 
 	// 'match' is used to look behind card for debug
 	// card.classList.toggle('match');
 	var cardInside = document.createElement('i');
@@ -79,28 +79,38 @@ function createCardHTML(cardType) {
  	// TODO: remove all cards for each time
 
  	// remove any old ones
-	while (deck.firstChild) {
-    	deck.removeChild(deck.firstChild);
-	}
+ 	while (deck.firstChild) {
+ 		deck.removeChild(deck.firstChild);
+ 	}
 
 	// add new ones
 	for(var i=0; i<cards.length; ++i) {
- 		deck.appendChild(createCardHTML(cards[i]));
- 	}
- }
+		deck.appendChild(createCardHTML(cards[i]));
+	}
+}
 
 
-
+ /*
+ * @description Turns a card so it is visible (open/show)
+ * @param {Object} a card element
+ */
  function toggleCardOpenShow(card) {
- 	console.log('toggleCard:' + card);
  	card.classList.toggle('open');
  	card.classList.toggle('show');
  }
 
+/*
+ * @description Highlights a matched card (when having pairs)
+ * @param {Object} a card element
+ */
  function toggleCardMatch(card) {
  	card.classList.toggle('match');
  }
 
+ /*
+ * @description Checks that cards are equal
+ * @returns {boolean} true if they are equal, otherwise false
+ */
  function checkForEqualityOfCards() {
  	var openCardsArray = Array.from(openCards);
  	var card1 = new Set(openCardsArray[0].firstElementChild.classList);
@@ -120,6 +130,10 @@ function createCardHTML(cardType) {
  	return true;
  }
 
+/*
+ * @description Adds current (opened) card to set of opened cards
+ * @param {Object} card element clicked on
+ */
  function addToOpenCards(clickedCard) {
  	console.log('opened..');
  	var clickedCardStatus = new Set(clickedCard.classList);
@@ -130,6 +144,9 @@ function createCardHTML(cardType) {
  	}
  }
 
+/*
+ * @description Updates matches (if any) of pairs, and checks/stops if winning
+ */
  function checkForEquality() {
  	if(openCards.size == 2) {
  		var equalCards = checkForEqualityOfCards(openCards);
@@ -168,8 +185,11 @@ function createCardHTML(cardType) {
 	}
 }
 
-function updateStars() {
-	console.log('updatestars');
+/*
+ * @description Updates number of stars based on performance
+ */
+ function updateStars() {
+ 	console.log('updatestars');
 	// based on number of moves, calculate stars
 	if(cardTurnCounter < 1.5*cards.length) {
 		numStars = 3;
@@ -194,15 +214,21 @@ function updateStars() {
 	console.log('stars..');
 }
 
-function congratulationsPopup() {
-	window.alert('congratulations finalizing the game!');
+/*
+ * @description Creates popup when celebrating victory
+ */
+ function congratulationsPopup() {
+ 	window.alert('congratulations finalizing the game!');
 	// perhaps reset afterwards?
 }
 
-function setupEventListenerForCards() {
-	var deck = document.querySelector('.deck');
+/*
+ * @description Adds event listener for cards
+ */
+ function setupEventListenerForCards() {
+ 	var deck = document.querySelector('.deck');
 
-	function respondToTheClick(evt) {
+ 	function respondToTheClick(evt) {
  		// can click on <li>, and then reach the <i> inside with firstElementChild
  		// only able to click on card with certain status
  		// and a set number of cards
@@ -237,31 +263,39 @@ function setupEventListenerForCards() {
  	deck.addEventListener('click', respondToTheClick);
  }
 
-function restartButtonAction() {
-	// reset all variables and timers
-	console.log('restartButtonAction');
-	cards =  shuffle(createUnshuffledCards());
-	openCards = new Set();
-	matchedCards = new Set();
-	cardTurnCounter = 0;
-	numStars = 0;
-	startDateTime = new Date();
-	setTimeout(updateTimer, 1000);
-	displayCards();
-	updateNumberOfMoves();
-}
 
-
-function setupRestartButton() {
-	var restartButton = document.querySelector(".restart");
+/*
+ * @description Sets up restart button (resetting all variables when restarting)
+ */
+ function setupRestartButton() {
+ 	var restartButton = document.querySelector(".restart");
+ 	function restartButtonAction() {
+		// reset all variables and timers
+		console.log('restartButtonAction');
+		cards =  shuffle(createUnshuffledCards());
+		openCards = new Set();
+		matchedCards = new Set();
+		cardTurnCounter = 0;
+		numStars = 0;
+		startDateTime = new Date();
+		setTimeout(updateTimer, 1000);
+		displayCards();
+		updateNumberOfMoves();
+	}
 	restartButton.addEventListener('click', restartButtonAction);
 }
 
+/*
+ * @description Updates number of moves (turns)
+ */
 function updateNumberOfMoves() {
 	var moves = document.querySelector(".moves");
 	moves.innerText = cardTurnCounter;
 }
 
+/* 
+ * @description Updates timer by recursively call itself every 1000ms 
+ */
 function updateTimer() {
 	var currentDateTime = new Date();
 
@@ -271,17 +305,15 @@ function updateTimer() {
 	var timer = document.querySelector(".timer");
 	timer.innerText = deltaInSeconds;
 
+	// recursive call after 1000 milliseconds, unless game is finished
 	if(matchedCards.size < cards.length) {
 		setTimeout(updateTimer, 1000);
 	}
 }
 
 /*
-* MAIN FUNCTION that sets up everything
-*/
-
-
-
+ * @description MAIN FUNCTION that sets up everything
+ */
 function main() {
 	displayCards();
 	setupRestartButton();
