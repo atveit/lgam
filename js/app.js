@@ -140,6 +140,11 @@ function setupEventListenerForCards() {
  		// can click on <li>, and then reach the <i> inside with firstElementChild
  		// only able to click on card with certain status
  		// and a set number of cards
+ 		if(openCards.size >= 2) {
+ 			// deal with during setTimeout calls
+ 			return;
+ 		}
+
  		var clickedCard = evt.target;
  		if(clickedCard.nodeName.toLowerCase() == 'li') {
  			console.log(clickedCard.nodeName);
