@@ -2,6 +2,16 @@
 
 var openCards = new Set();
 
+// TODOs:
+// 1) timing of game, e.g. https://www.w3schools.com/js/js_timing.asp
+//.    or console.time https://blog.mariusschulz.com/2013/11/22/measuring-execution-times-in-javascript-with-consoletime
+// 2) congratulations popup
+//.   - need to detect winning situation, count match pairs
+// 3) restart button - new shuffled state, all timers/vars zeroed out
+// 4) star rating, hardcode based on moves, finalize before N then 3 stars
+//.    before 2N then 2 stars (
+// 5) update with number of moves (i.e. clicks that lead to a turn of a card)
+
 function createUnshuffledCards() {
 	var cardTypes = ["fa-diamond", "fa-paper-plane-o", "fa-anchor",
 	"fa-bolt", "fa-cube", "fa-bicycle", "fa-bomb", "fa-leaf"];
