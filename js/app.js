@@ -6,6 +6,7 @@ var matchedCards = new Set();
 var cardTurnCounter= 0;
 var numStars = 0;
 
+
 // TODOs:
 // 1) timing of game, e.g. https://www.w3schools.com/js/js_timing.asp
 //.    or console.time https://blog.mariusschulz.com/2013/11/22/measuring-execution-times-in-javascript-with-consoletime
@@ -229,6 +230,22 @@ function setupEventListenerForCards() {
  	deck.addEventListener('click', respondToTheClick);
  }
 
+function restartButtonAction() {
+	// reset all variables and timers
+	console.log('restartButtonAction');
+	cards =  shuffle(createUnshuffledCards());
+	openCards = new Set();
+	matchedCards = new Set();
+	cardTurnCounter = 0;
+	numStars = 0;
+	displayCards();
+}
+
+
+function setupRestartButton() {
+	var restartButton = document.querySelector(".restart");
+	restartButton.addEventListener('click', restartButtonAction);
+}
 
 /*
 * MAIN FUNCTION that sets up everything
