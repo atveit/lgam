@@ -172,8 +172,8 @@ var startDateTime = new Date();
 
  		if(matchedCards.size == cards.length) {
 			// all cards have been matched, we have a winning situation
-			congratulationsPopup();
-			updateStars();
+			//congratulationsPopup();
+			congratulationsModal();
 		}
 
 	} else if(openCards.size == 1) {
@@ -223,7 +223,7 @@ function clearStars(className) {
 		star.appendChild(innerStar);
 		stars.appendChild(star);
 	}
-	console.log('<== updatestars - numstars = '+ numStars);
+	console.log('<== updatestars - numstars = ',  numStars);
 }
 
 /*
@@ -383,12 +383,10 @@ function congratulationsModal() {
 function main() {
 	updateStars('.stars'); // initially 3 stars before any move
 	displayCards();
-	congratulationsModal();
-		/*
+	//congratulationsModal();
 	setupRestartButton();
 	setupEventListenerForCards(); 
 	setTimeout(updateTimer, 1000);
-*/
 }
 
 main();
