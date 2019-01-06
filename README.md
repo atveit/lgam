@@ -2,9 +2,24 @@
 
 ## Table of Contents
 
-* [Instructions](#instructions)
-* [Code added for this project](#code)
+* How the game is played
+* Appendix
 
+# How the game is played
+
+## Starting and restarting the game
+The game starts when opening index.html file in the browser. It can be restarted when clicking the circular arrow (upper right). You can also choose to restart the game if winning it and click the Play again button (in the popup showing that you won).
+
+## Playing the game 
+
+Try to find matching pairs of symbols by clicking at them (one at a
+time) to turn the cards. If the cards match they stick and then you
+continue until you've found all pairs (hint: use your memory). There
+are 16 cards in total, and since they are paired there are 8 different
+types of cards. The time increments every second and the more moves
+(pairs attempted to match) you make the less stars you keep.
+
+# Appendix 
 ## Instructions
 
 The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
