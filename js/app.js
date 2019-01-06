@@ -188,9 +188,9 @@ var startDateTime = new Date();
 /*
  * @description Clears stars that shows performance (utilify function)
  */
-function clearStars() {
+function clearStars(className) {
 	console.log("clearStars");
-	var myNode = document.querySelector(".stars");
+	var myNode = document.querySelector(className);
 	while (myNode.firstChild) {
     	myNode.removeChild(myNode.firstChild);
 	}
@@ -199,8 +199,8 @@ function clearStars() {
 /*
  * @description Updates number of stars based on performance
  */
- function updateStars() {
- 	console.log('==> updatestars');
+ function updateStars(className) {
+ 	console.log('==> updatestars', className);
 	// based on number of moves, calculate stars
 	if(cardTurnCounter < 1.2*cards.length) {
 		numStars = 3;
@@ -213,8 +213,8 @@ function clearStars() {
 	}
 
 	// UPDATE DOM for stars
-	clearStars();
-	var stars = document.querySelector('.stars');
+	clearStars(className);
+	var stars = document.querySelector(className);
 	for(var i=0; i<numStars; ++i) {
 		var star = document.createElement('li');
 		var innerStar = document.createElement('i')
@@ -232,35 +232,6 @@ function clearStars() {
  function congratulationsPopup() {
  	window.alert('congratulations finalizing the game!');
 	// perhaps reset afterwards?
-}
-
-function congratulationsModal() {
-	console.log('congratulationsModal')
-	  // Get the modal
-	var modal = document.querySelector('.modal');
-	console.log(modal);
-
-		// Get the <span> element that closes the modal
-	var span = document.getElementsByClassName("close")[0];
-	console.log(span);
-
-	// open the modal window
-	modal.style.display = "block";
-
-
-	
-	// When the user clicks on <span> (x), close the modal
-	span.onclick = function() {
-	  modal.style.display = "none";
-	}
-
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-	  if (event.target == modal) {
-	    modal.style.display = "none";
-	  }
-	}
-
 }
 
 
@@ -341,7 +312,7 @@ function updateNumberOfMoves() {
 	// cardTurnCounter counts every card, but displaying only every pair
 	moves.innerText = Math.trunc(cardTurnCounter/2);
 	console.log("before updatestars..");
-	updateStars();
+	updateStars('.stars');
 }
 
 /* 
@@ -362,11 +333,55 @@ function updateTimer() {
 	}
 }
 
+function congratulationsModal() {
+	console.log('congratulationsModal')
+	  // Get the modal
+	var modal = document.querySelector('.modal');
+	console.log(modal);
+
+		// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+	console.log(span);
+
+	// open the modal window
+	modal.style.display = "block";
+
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+
+	// When the user clicks on the playagain function, close the modal
+	// and restart game
+	var playagainButton = document.querySelector('.playagain');
+	playagainButton.onclick = function() {
+		modal.style.display = "none";
+		restartButtonAction();
+	}
+
+	// Update time (timespent) in modal to the time spent in the game (timer)
+	var timespent = document.querySelector('.timespent');
+	var timer = document.querySelector(".timer");
+	timespent.innerText = timer.innerText;
+
+	updateStars('.starrating');
+}
+
+
+
 /*
  * @description MAIN FUNCTION that sets up everything
  */
 function main() {
-	updateStars(); // initially 3 stars before any move
+	updateStars('.stars'); // initially 3 stars before any move
 	displayCards();
 	congratulationsModal();
 		/*
