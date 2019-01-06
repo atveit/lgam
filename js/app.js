@@ -186,22 +186,34 @@ var startDateTime = new Date();
 }
 
 /*
+ * @description Clears stars that shows performance (utilify function)
+ */
+function clearStars() {
+	console.log("clearStars");
+	var myNode = document.querySelector(".stars");
+	while (myNode.firstChild) {
+    	myNode.removeChild(myNode.firstChild);
+	}
+}
+
+/*
  * @description Updates number of stars based on performance
  */
  function updateStars() {
- 	console.log('updatestars');
+ 	console.log('==> updatestars');
 	// based on number of moves, calculate stars
-	if(cardTurnCounter < 1.5*cards.length) {
+	if(cardTurnCounter < 1.2*cards.length) {
 		numStars = 3;
 	} else if(cardTurnCounter < 2.0*cards.length) {
 		numStars = 2;
-	} else if(cardTurnCounter < 8.0*cards.length) {
+	} else if(cardTurnCounter < 3.0*cards.length) {
 		numStars = 1;
 	} else {
 		numStars = 0;
 	}
 
 	// UPDATE DOM for stars
+	clearStars();
 	var stars = document.querySelector('.stars');
 	for(var i=0; i<numStars; ++i) {
 		var star = document.createElement('li');
@@ -211,7 +223,7 @@ var startDateTime = new Date();
 		star.appendChild(innerStar);
 		stars.appendChild(star);
 	}
-	console.log('stars..');
+	console.log('<== updatestars - numstars = '+ numStars);
 }
 
 /*
@@ -276,7 +288,7 @@ var startDateTime = new Date();
 		openCards = new Set();
 		matchedCards = new Set();
 		cardTurnCounter = 0;
-		numStars = 0;
+		numStars = 3;
 		startDateTime = new Date();
 		setTimeout(updateTimer, 1000);
 		displayCards();
@@ -289,8 +301,11 @@ var startDateTime = new Date();
  * @description Updates number of moves (turns)
  */
 function updateNumberOfMoves() {
+	console.log('update number of moves');
 	var moves = document.querySelector(".moves");
 	moves.innerText = cardTurnCounter;
+	console.log("before updatestars..");
+	updateStars();
 }
 
 /* 
@@ -315,6 +330,8 @@ function updateTimer() {
  * @description MAIN FUNCTION that sets up everything
  */
 function main() {
+	clearStars();
+	updateStars();
 	displayCards();
 	setupRestartButton();
 	setupEventListenerForCards();
