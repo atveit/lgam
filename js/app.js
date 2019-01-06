@@ -275,13 +275,10 @@ function clearStars() {
  	deck.addEventListener('click', respondToTheClick);
  }
 
-
 /*
- * @description Sets up restart button (resetting all variables when restarting)
+ * @description sets up everything that should be set up when restarting game
  */
- function setupRestartButton() {
- 	var restartButton = document.querySelector(".restart");
- 	function restartButtonAction() {
+function restartButtonAction() {
 		// reset all variables and timers
 		console.log('restartButtonAction');
 		cards =  shuffle(createUnshuffledCards());
@@ -293,7 +290,15 @@ function clearStars() {
 		setTimeout(updateTimer, 1000);
 		displayCards();
 		updateNumberOfMoves();
-	}
+}
+
+
+/*
+ * @description Sets up restart button (resetting all variables when restarting)
+ */
+ function setupRestartButton() {
+ 	var restartButton = document.querySelector(".restart");
+ 	
 	restartButton.addEventListener('click', restartButtonAction);
 }
 
@@ -303,7 +308,8 @@ function clearStars() {
 function updateNumberOfMoves() {
 	console.log('update number of moves');
 	var moves = document.querySelector(".moves");
-	moves.innerText = cardTurnCounter;
+	// cardTurnCounter counts every card, but displaying only every pair
+	moves.innerText = Math.trunc(cardTurnCounter/2);
 	console.log("before updatestars..");
 	updateStars();
 }
@@ -330,11 +336,10 @@ function updateTimer() {
  * @description MAIN FUNCTION that sets up everything
  */
 function main() {
-	clearStars();
-	updateStars();
+	updateStars(); // initially 3 stars before any move
 	displayCards();
 	setupRestartButton();
-	setupEventListenerForCards();
+	setupEventListenerForCards(); 
 	setTimeout(updateTimer, 1000);
 
 }
